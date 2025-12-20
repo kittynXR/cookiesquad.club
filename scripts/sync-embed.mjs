@@ -7,6 +7,21 @@ function discordTimestamp(epochSeconds, style = "t") {
   return `<t:${epochSeconds}:${style}>`;
 }
 
+function formatInTimeZone(epochSeconds, timeZone, options) {
+  return new Intl.DateTimeFormat("en-US", { timeZone, ...options }).format(new Date(epochSeconds * 1000));
+}
+
+function timeZoneAbbrev(epochSeconds, timeZone) {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "short" }).formatToParts(
+      new Date(epochSeconds * 1000),
+    );
+    return parts.find((p) => p.type === "timeZoneName")?.value ?? "";
+  } catch {
+    return "";
+  }
+}
+
 function asAbsoluteUrl(siteUrl, pathOrUrl) {
   if (!pathOrUrl) return siteUrl;
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
@@ -27,21 +42,47 @@ function pickEmbedEvent(events, nowEpochSeconds) {
   return { mode: "none", event: null };
 }
 
-function buildEmbedMeta({ siteUrl, siteName, event, mode }) {
+function buildEmbedMeta({ siteUrl, siteName, timeZone, event, mode }) {
   const baseTitle = siteName || "CookieSquad";
   const title = mode === "next" ? `${baseTitle} — Next Event` : `${baseTitle} — Previous Event`;
 
-  const when = Number.isFinite(event?.doorsAt) ? discordTimestamp(event.doorsAt, "F") : "TBA";
   const prefix = mode === "next" ? "Next event will be" : "Previous event was on";
+  const hasDoors = Number.isFinite(event?.doorsAt);
+
+  const whenLocal = hasDoors
+    ? formatInTimeZone(event.doorsAt, timeZone, {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      })
+    : "TBA";
+  const whenUtc = hasDoors
+    ? formatInTimeZone(event.doorsAt, "UTC", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      })
+    : null;
+
+  const when = whenUtc ? `${whenLocal} / ${whenUtc}` : whenLocal;
 
   const lineupParts = [];
-  if (Number.isFinite(event?.doorsAt)) lineupParts.push(`Doors ${discordTimestamp(event.doorsAt, "t")}`);
+  const tzShort = hasDoors ? timeZoneAbbrev(event.doorsAt, timeZone) : "";
   for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
     if (!slot?.name || !Number.isFinite(slot?.at)) continue;
-    lineupParts.push(`${slot.name} ${discordTimestamp(slot.at, "t")}`);
+    const time = formatInTimeZone(slot.at, timeZone, { hour: "numeric", minute: "2-digit" });
+    lineupParts.push(`${slot.name} ${time}`);
   }
 
-  const description = `${prefix} ${when}: ${event?.title ?? baseTitle}${lineupParts.length ? `. ${lineupParts.join(" • ")}` : ""}`;
+  const lineupSuffix =
+    lineupParts.length && tzShort ? ` (${tzShort})` : lineupParts.length ? "" : "";
+  const description = `${prefix} ${when}: ${event?.title ?? baseTitle}${
+    lineupParts.length ? `. ${lineupParts.join(" • ")}${lineupSuffix}` : ""
+  }`;
 
   const imageUrl = asAbsoluteUrl(siteUrl, event?.poster);
 
@@ -92,6 +133,7 @@ async function main() {
   const eventsData = JSON.parse(eventsRaw);
   const siteUrl = eventsData?.site?.url ?? "https://cookiesquad.club/";
   const siteName = eventsData?.site?.name ?? "CookieSquad";
+  const timeZone = eventsData?.site?.timezone ?? "UTC";
   const events = Array.isArray(eventsData?.events) ? eventsData.events : [];
 
   const nowEpochSeconds = Math.floor(Date.now() / 1000);
@@ -101,6 +143,7 @@ async function main() {
   const newInner = buildEmbedMeta({
     siteUrl: siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`,
     siteName,
+    timeZone,
     event: picked.event,
     mode: picked.mode,
   });
