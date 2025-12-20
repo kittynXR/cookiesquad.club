@@ -17,6 +17,27 @@ function discordTimestamp(epochSeconds, style = "t") {
   return `<t:${epochSeconds}:${style}>`;
 }
 
+function buildDiscordPost(event) {
+  const baseUrl = new URL("../", window.location.href).toString();
+
+  const lines = [];
+  lines.push("CookieSquad event:");
+  lines.push(String(event?.title ?? "CookieSquad"));
+
+  if (Number.isFinite(event?.doorsAt)) {
+    lines.push(`Doors: ${discordTimestamp(event.doorsAt, "F")}`);
+  }
+
+  for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
+    if (!slot?.name || !Number.isFinite(slot?.at)) continue;
+    lines.push(`${slot.name} — ${discordTimestamp(slot.at, "t")}`);
+  }
+
+  lines.push("");
+  lines.push(baseUrl);
+  return lines.join("\n");
+}
+
 function formatLocal(epochSeconds, options) {
   try {
     return new Intl.DateTimeFormat(undefined, options).format(new Date(epochSeconds * 1000));
@@ -119,6 +140,7 @@ function render(root, event, photos) {
 
         <div class="hero-actions">
           <a class="btn primary" href="../admin/?eventId=${encodeURIComponent(event.id)}">Upload photos</a>
+          <button class="btn" type="button" data-copy-discord-post="1">Copy Discord post</button>
           <a class="btn" href="../">Back</a>
         </div>
       </div>
@@ -146,11 +168,12 @@ function render(root, event, photos) {
             <p class="muted" style="margin-top: 0;">
               No photos uploaded for this event yet.
             </p>
-            <div class="hero-actions">
-              <a class="btn primary" href="../admin/?eventId=${encodeURIComponent(event.id)}">Upload photos</a>
-              <a class="btn" href="../#galleries">Back to galleries</a>
-            </div>
-          </div>`
+      <div class="hero-actions">
+        <a class="btn primary" href="../admin/?eventId=${encodeURIComponent(event.id)}">Upload photos</a>
+        <button class="btn" type="button" data-copy-discord-post="1">Copy Discord post</button>
+        <a class="btn" href="../#galleries">Back to galleries</a>
+      </div>
+    </div>`
     }
   `;
 
@@ -165,6 +188,10 @@ function render(root, event, photos) {
   for (const btn of root.querySelectorAll("button[data-copy]")) {
     btn.addEventListener("click", () => copyToClipboard(btn.getAttribute("data-copy") ?? ""));
   }
+
+  root.querySelector('button[data-copy-discord-post="1"]')?.addEventListener("click", () =>
+    copyToClipboard(buildDiscordPost(event)),
+  );
 
   for (const btn of root.querySelectorAll("button[data-photo-src]")) {
     btn.addEventListener("click", () =>

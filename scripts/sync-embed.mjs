@@ -70,19 +70,22 @@ function buildEmbedMeta({ siteUrl, siteName, timeZone, event, mode }) {
 
   const when = whenUtc ? `${whenLocal} / ${whenUtc}` : whenLocal;
 
-  const lineupParts = [];
+  const titleText = event?.title ?? baseTitle;
   const tzShort = hasDoors ? timeZoneAbbrev(event.doorsAt, timeZone) : "";
+
+  const lines = [`${prefix} ${when}: ${titleText}`];
+  if (hasDoors) {
+    const doorsTime = formatInTimeZone(event.doorsAt, timeZone, { hour: "numeric", minute: "2-digit" });
+    lines.push(`Doors — ${doorsTime}${tzShort ? ` ${tzShort}` : ""}`);
+  }
+
   for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
     if (!slot?.name || !Number.isFinite(slot?.at)) continue;
     const time = formatInTimeZone(slot.at, timeZone, { hour: "numeric", minute: "2-digit" });
-    lineupParts.push(`${slot.name} ${time}`);
+    lines.push(`${slot.name} — ${time}${tzShort ? ` ${tzShort}` : ""}`);
   }
 
-  const lineupSuffix =
-    lineupParts.length && tzShort ? ` (${tzShort})` : lineupParts.length ? "" : "";
-  const description = `${prefix} ${when}: ${event?.title ?? baseTitle}${
-    lineupParts.length ? `. ${lineupParts.join(" • ")}${lineupSuffix}` : ""
-  }`;
+  const description = lines.join("\n");
 
   const imageUrl = asAbsoluteUrl(siteUrl, event?.poster);
 
@@ -101,9 +104,16 @@ function buildEmbedMeta({ siteUrl, siteName, timeZone, event, mode }) {
 }
 
 function escapeHtmlAttr(value) {
+  const placeholder = "__CSQ_NL__";
   return String(value ?? "")
+    .replaceAll("\r\n", "\n")
+    .replaceAll("\r", "\n")
+    .replaceAll("\n", placeholder)
     .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;");
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll(placeholder, "&#10;");
 }
 
 function replaceEmbedBlock(html, newInnerBlock) {

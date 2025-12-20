@@ -18,6 +18,29 @@ function discordTimestamp(epochSeconds, style = "t") {
   return `<t:${epochSeconds}:${style}>`;
 }
 
+function buildDiscordPost({ event, mode, site }) {
+  const baseUrl = site?.url
+    ? new URL(site.url.endsWith("/") ? site.url : `${site.url}/`).toString()
+    : new URL("/", window.location.href).toString();
+
+  const lines = [];
+  lines.push(mode === "next" ? "Next CookieSquad event:" : "Previous CookieSquad event:");
+  lines.push(String(event?.title ?? "CookieSquad"));
+
+  if (Number.isFinite(event?.doorsAt)) {
+    lines.push(`Doors: ${discordTimestamp(event.doorsAt, "F")}`);
+  }
+
+  for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
+    if (!slot?.name || !Number.isFinite(slot?.at)) continue;
+    lines.push(`${slot.name} — ${discordTimestamp(slot.at, "t")}`);
+  }
+
+  lines.push("");
+  lines.push(baseUrl);
+  return lines.join("\n");
+}
+
 function formatLocal(epochSeconds, options) {
   try {
     return new Intl.DateTimeFormat(undefined, options).format(new Date(epochSeconds * 1000));
@@ -78,7 +101,7 @@ function escapeHtml(text) {
     .replaceAll("'", "&#39;");
 }
 
-function renderFeatured(container, featured) {
+function renderFeatured(container, featured, site) {
   if (!container) return;
   if (!featured.event) {
     container.className = "card card-body";
@@ -131,6 +154,7 @@ function renderFeatured(container, featured) {
       <div class="hero-actions">
         <a class="btn primary" href="event/?id=${encodeURIComponent(event.id)}">Open event page</a>
         <a class="btn" href="admin/?eventId=${encodeURIComponent(event.id)}">Upload photos</a>
+        <button class="btn" type="button" data-copy-discord-post="1">Copy Discord post</button>
       </div>
     </div>
   `;
@@ -147,6 +171,10 @@ function renderFeatured(container, featured) {
   for (const btn of container.querySelectorAll("button[data-copy]")) {
     btn.addEventListener("click", () => copyToClipboard(btn.getAttribute("data-copy") ?? ""));
   }
+
+  container.querySelector('button[data-copy-discord-post="1"]')?.addEventListener("click", () =>
+    copyToClipboard(buildDiscordPost({ event, mode, site })),
+  );
 }
 
 function renderPosters(grid, posters) {
@@ -245,8 +273,9 @@ async function main() {
 
     const events = Array.isArray(eventsData?.events) ? eventsData.events : [];
     const posters = Array.isArray(postersData?.posters) ? postersData.posters : [];
+    const site = eventsData?.site ?? null;
 
-    renderFeatured(featuredNode, pickFeaturedEvent(events));
+    renderFeatured(featuredNode, pickFeaturedEvent(events), site);
     renderPosters(postersNode, posters);
     await renderGalleries(galleriesNode, events);
   } catch (err) {
