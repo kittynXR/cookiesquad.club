@@ -1,0 +1,23 @@
+{
+  "site": {
+    "name": "CookieSquad",
+    "url": "https://cookiesquad.club",
+    "timezone": "America/New_York"
+  },
+  "events": [
+    {
+      "id": "cookie-2094-dec-2025",
+      "title": "COOKIE.2094 — Variety Rave",
+      "poster": "assets/posters/december_2025.png",
+      "posterAlt": "CookieSquad COOKIE.2094 poster (Dec 13/14)",
+      "doorsAt": 1765679400,
+      "lineup": [
+        { "name": "Corvus", "at": 1765681200 },
+        { "name": "Brick", "at": 1765684800 },
+        { "name": "Ezyne", "at": 1765688400 },
+        { "name": "Tabbid", "at": 1765692000 }
+      ]
+    }
+  ]
+}
+

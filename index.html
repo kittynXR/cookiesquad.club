@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CookieSquad — VRChat raves &amp; events</title>
+    <meta
+      name="description"
+      content="CookieSquad VRChat raves & events — posters, lineups, and photo galleries."
+    />
+    <meta name="theme-color" content="#0b1220" />
+
+    <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/favicons/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicons/favicon-512x512.png" />
+
+    <!-- EMBED:START -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CookieSquad" />
+    <meta property="og:url" content="https://cookiesquad.club/" />
+    <meta property="og:title" content="CookieSquad — Previous Event" />
+    <meta property="og:description" content="Previous event was on <t:1765679400:F>: COOKIE.2094 — Variety Rave. Doors <t:1765679400:t> • Corvus <t:1765681200:t> • Brick <t:1765684800:t> • Ezyne <t:1765688400:t> • Tabbid <t:1765692000:t>" />
+    <meta property="og:image" content="https://cookiesquad.club/assets/posters/december_2025.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CookieSquad — Previous Event" />
+    <meta name="twitter:description" content="Previous event was on <t:1765679400:F>: COOKIE.2094 — Variety Rave. Doors <t:1765679400:t> • Corvus <t:1765681200:t> • Brick <t:1765684800:t> • Ezyne <t:1765688400:t> • Tabbid <t:1765692000:t>" />
+    <meta name="twitter:image" content="https://cookiesquad.club/assets/posters/december_2025.png" />
+    <!-- EMBED:END -->
+
+    <link rel="stylesheet" href="css/site.css" />
+    <script type="module" src="js/site.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="./" aria-label="CookieSquad home">
+          <img class="brand-logo" src="assets/logos/logo_long.png" alt="CookieSquad" />
+        </a>
+        <nav class="nav">
+          <a href="#event">Event</a>
+          <a href="#posters">Posters</a>
+          <a href="#galleries">Galleries</a>
+          <a href="admin/">Upload</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <section class="hero">
+        <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <p class="pill">VRChat • Raves • Events</p>
+            <h1 class="hero-title">Dark rooms. Loud sets. Good cookies.</h1>
+            <p class="hero-subtitle">
+              Posters, lineups, and photo galleries for CookieSquad events — built for Discord shares
+              and late-night vibes.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#event">See the latest</a>
+              <a class="btn" href="#posters">Poster archive</a>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="hero-orb"></div>
+            <div class="hero-orb two"></div>
+            <div class="hero-orb three"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="event" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Featured</h2>
+            <p class="muted">This section switches between “Next” and “Previous” automatically.</p>
+          </div>
+          <div id="featured-event" class="skeleton-card" aria-live="polite">
+            <div class="skeleton-poster"></div>
+            <div class="skeleton-lines">
+              <div class="skeleton-line"></div>
+              <div class="skeleton-line short"></div>
+              <div class="skeleton-line"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="posters" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Poster archive</h2>
+            <p class="muted">Tap a poster for a closer look.</p>
+          </div>
+          <div id="poster-grid" class="grid posters-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="galleries" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Photo galleries</h2>
+            <p class="muted">
+              Each event can have its own gallery. Uploading works on GitHub Pages via the GitHub API.
+            </p>
+          </div>
+          <div id="gallery-grid" class="grid gallery-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="wrap footer-inner">
+          <div class="footer-brand">
+            <img class="footer-logo" src="assets/logos/logo_big.png" alt="" />
+            <div>
+              <div class="footer-title">CookieSquad</div>
+              <div class="muted">VRChat raves &amp; events</div>
+            </div>
+          </div>
+          <div class="footer-links">
+            <a href="#event">Featured</a>
+            <a href="#posters">Posters</a>
+            <a href="#galleries">Galleries</a>
+            <a href="admin/">Upload</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <dialog id="lightbox" class="lightbox">
+      <form method="dialog" class="lightbox-inner">
+        <button class="icon-btn lightbox-close" value="close" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <img id="lightbox-img" class="lightbox-img" alt="" />
+        <p id="lightbox-caption" class="lightbox-caption muted"></p>
+      </form>
+    </dialog>
+  </body>
+</html>
+

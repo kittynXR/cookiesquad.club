@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CookieSquad — Event</title>
+    <meta name="theme-color" content="#0b1220" />
+
+    <link rel="apple-touch-icon" href="../assets/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicons/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="../assets/favicons/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="../assets/favicons/favicon-512x512.png" />
+
+    <link rel="stylesheet" href="../css/site.css" />
+    <script type="module" src="../js/event.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="../" aria-label="CookieSquad home">
+          <img class="brand-logo" src="../assets/logos/logo_long.png" alt="CookieSquad" />
+        </a>
+        <nav class="nav">
+          <a href="../#event">Featured</a>
+          <a href="../#posters">Posters</a>
+          <a href="../#galleries">Galleries</a>
+          <a href="../admin/">Upload</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <section class="section">
+        <div id="event-root" class="wrap" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <dialog id="lightbox" class="lightbox">
+      <form method="dialog" class="lightbox-inner">
+        <button class="icon-btn lightbox-close" value="close" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <img id="lightbox-img" class="lightbox-img" alt="" />
+        <p id="lightbox-caption" class="lightbox-caption muted"></p>
+      </form>
+    </dialog>
+  </body>
+</html>
+

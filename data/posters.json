@@ -1,0 +1,20 @@
+{
+  "posters": [
+    { "label": "December 2025", "src": "assets/posters/december_2025.png", "date": "2025-12" },
+    { "label": "November 2025", "src": "assets/posters/november_2025.png", "date": "2025-11" },
+    { "label": "October 2025", "src": "assets/posters/october_2025.png", "date": "2025-10" },
+    { "label": "May 2025", "src": "assets/posters/may_2025.png", "date": "2025-05" },
+    { "label": "April 2025", "src": "assets/posters/april_2025.png", "date": "2025-04" },
+    { "label": "March 2025", "src": "assets/posters/march_2025.png", "date": "2025-03" },
+    { "label": "January 2025", "src": "assets/posters/january_2025.png", "date": "2025-01" },
+    { "label": "December 2024", "src": "assets/posters/december_2024.png", "date": "2024-12" },
+    { "label": "November 2024", "src": "assets/posters/november_2024.png", "date": "2024-11" },
+    { "label": "October 2024", "src": "assets/posters/october_2024.png", "date": "2024-10" },
+    { "label": "September 2024", "src": "assets/posters/september_2024.png", "date": "2024-09" },
+    { "label": "August 2024", "src": "assets/posters/august_2024.jpg", "date": "2024-08" },
+    { "label": "July 2024", "src": "assets/posters/july_2024.png", "date": "2024-07" },
+    { "label": "June 2024", "src": "assets/posters/june_2024.png", "date": "2024-06" },
+    { "label": "May 2024", "src": "assets/posters/may_2024.png", "date": "2024-05" }
+  ]
+}
+

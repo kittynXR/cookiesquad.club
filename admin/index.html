@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CookieSquad — Upload</title>
+    <meta name="theme-color" content="#0b1220" />
+
+    <link rel="apple-touch-icon" href="../assets/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicons/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="../assets/favicons/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="../assets/favicons/favicon-512x512.png" />
+
+    <link rel="stylesheet" href="../css/site.css" />
+    <script type="module" src="../js/admin-upload.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="../" aria-label="CookieSquad home">
+          <img class="brand-logo" src="../assets/logos/logo_long.png" alt="CookieSquad" />
+        </a>
+        <nav class="nav">
+          <a href="../#event">Featured</a>
+          <a href="../#posters">Posters</a>
+          <a href="../#galleries">Galleries</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <section class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Gallery uploader</h2>
+            <p class="muted">
+              This runs entirely in your browser and commits photos to GitHub (so it works on GitHub Pages).
+              Create a fine‑grained GitHub token with <span class="chip">Contents: Read &amp; Write</span> for this repo.
+            </p>
+          </div>
+
+          <form id="upload-form" class="card card-body form">
+            <div class="form-grid">
+              <label class="field">
+                <span class="field-label">Repository</span>
+                <input class="input" name="repo" value="kittynXR/cookiesquad.club" autocomplete="off" />
+                <span class="field-help muted">Format: owner/repo</span>
+              </label>
+              <label class="field">
+                <span class="field-label">Branch</span>
+                <input class="input" name="branch" value="main" autocomplete="off" />
+              </label>
+              <label class="field wide">
+                <span class="field-label">Token</span>
+                <input class="input" name="token" type="password" placeholder="github_pat_..." autocomplete="off" />
+                <span class="field-help muted">Stored locally only if you choose “Remember”.</span>
+              </label>
+              <label class="field">
+                <span class="field-label">Remember token</span>
+                <select class="input" name="remember">
+                  <option value="no" selected>No</option>
+                  <option value="yes">Yes (localStorage)</option>
+                </select>
+              </label>
+              <label class="field wide">
+                <span class="field-label">Event</span>
+                <select class="input" name="eventId" id="event-select"></select>
+              </label>
+              <label class="field wide">
+                <span class="field-label">Photos</span>
+                <input class="input" name="files" type="file" accept="image/*" multiple />
+                <span class="field-help muted">Tip: smaller images load faster in VRChat browsers.</span>
+              </label>
+            </div>
+
+            <div class="hero-actions">
+              <button class="btn primary" type="submit" id="upload-btn">Upload to GitHub</button>
+              <a class="btn" href="../">Back</a>
+            </div>
+
+            <div class="divider"></div>
+            <pre id="log" class="log" aria-live="polite"></pre>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
+
