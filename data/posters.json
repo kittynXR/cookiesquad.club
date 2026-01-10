@@ -1,5 +1,6 @@
 {
   "posters": [
+    { "label": "January 2026", "src": "assets/posters/january_2026.png", "date": "2026-01" },
     { "label": "December 2025", "src": "assets/posters/december_2025.png", "date": "2025-12" },
     { "label": "November 2025", "src": "assets/posters/november_2025.png", "date": "2025-11" },
     { "label": "October 2025", "src": "assets/posters/october_2025.png", "date": "2025-10" },
@@ -17,4 +18,3 @@
     { "label": "May 2024", "src": "assets/posters/may_2024.png", "date": "2024-05" }
   ]
 }
-

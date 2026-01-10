@@ -6,6 +6,19 @@
   },
   "events": [
     {
+      "id": "first-rave-2026-jan-24",
+      "title": "January 24th: First Rave of 2026",
+      "poster": "assets/posters/january_2026.png",
+      "posterAlt": "CookieSquad First Rave of 2026 poster (Jan 24)",
+      "doorsAt": 1769308200,
+      "lineup": [
+        { "name": "GreyWolf'", "at": 1769310000 },
+        { "name": "ItsHesii", "at": 1769313600 },
+        { "name": "Tabbid", "at": 1769317200 },
+        { "name": "A N N I E", "at": 1769320800 }
+      ]
+    },
+    {
       "id": "cookie-2094-dec-2025",
       "title": "COOKIE.2094 — Variety Rave",
       "poster": "assets/posters/december_2025.png",
@@ -20,4 +33,3 @@
     }
   ]
 }
-
