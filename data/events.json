@@ -6,6 +6,20 @@
   },
   "events": [
     {
+      "id": "cookie-2094-feb-2026",
+      "title": "COOKIE.2094 — Variety Rave",
+      "poster": "assets/posters/february_2026.png",
+      "posterAlt": "CookieSquad COOKIE.2094 poster (Feb 21/22)",
+      "doorsAt": 1771731000,
+      "lineup": [
+        { "name": "Brick", "at": 1771732800 },
+        { "name": "conductedmoon", "at": 1771736400 },
+        { "name": "[e.z.y.n.e.]", "at": 1771740000 },
+        { "name": "Tabbid", "at": 1771743600 },
+        { "name": "O.o????", "at": 1771747200 }
+      ]
+    },
+    {
       "id": "first-rave-2026-jan-24",
       "title": "January 24th: First Rave of 2026",
       "poster": "assets/posters/january_2026.png",
