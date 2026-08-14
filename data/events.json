@@ -6,6 +6,78 @@
   },
   "events": [
     {
+      "id": "cookie-2094-aug-2026",
+      "title": "COOKIE.2094 — August Rave",
+      "note": "We're back after the PJKT break. Date is locked — lineup, poster and set times still to come.",
+      "doorsAt": 1787448600,
+      "timeTba": true,
+      "lineup": []
+    },
+    {
+      "id": "cookie-2094-collab-jun-2026",
+      "title": "COOKIE.2094 — Collaboration Rave",
+      "poster": "assets/posters/june_2026.png",
+      "posterAlt": "CookieSquad COOKIE.2094 Collaboration Rave poster (Jun 27/28)",
+      "note": "PJKT Fest 2026 collab with Planetarium, Tipsy Twenties and SYNTH. Hosted by PJKT in their hub world — not the CookieSquad group.",
+      "doorsAt": 1782604800,
+      "lineup": [
+        { "name": "GreyWolf'", "at": 1782604800 },
+        { "name": "ItsHesii", "at": 1782608400 },
+        { "name": "Ezyne", "at": 1782612000 },
+        { "name": "Tabbid", "at": 1782615600 },
+        { "name": "Brick", "at": 1782619200 }
+      ]
+    },
+    {
+      "id": "cookie-2094-anniversary-may-2026",
+      "title": "COOKIE.2094 — 2 Year Anniversary Hardstyle Rave",
+      "poster": "assets/posters/may_2026.png",
+      "posterAlt": "CookieSquad COOKIE.2094 2 Year Anniversary poster (May 9/10)",
+      "note": "Two years of CookieSquad. Warehouse MK3 takeover — thank you Brick.",
+      "doorsAt": 1778376600,
+      "lineup": [
+        { "name": "GreyWolf'", "at": 1778378400 },
+        { "name": "Ezyne", "at": 1778382000 },
+        { "name": "Potacia", "at": 1778385600 },
+        { "name": "Brick", "at": 1778389200 }
+      ]
+    },
+    {
+      "id": "popup-open-deck-apr-2026",
+      "title": "Pop-Up Rave — Open Decks",
+      "note": "Impromptu open-deck party celebrating Chicken taking home the VRCA for Youtuber. First come, first served. Warehouse MK3.",
+      "doorsAt": 1777510800,
+      "lineup": []
+    },
+    {
+      "id": "cookie-2094-apr-2026",
+      "title": "COOKIE.2094 — Variety Rave",
+      "poster": "assets/posters/april_2026.png",
+      "posterAlt": "CookieSquad COOKIE.2094 poster (Apr 18/19)",
+      "note": "New home: Warehouse MK3 by Brick.",
+      "doorsAt": 1776562200,
+      "lineup": [
+        { "name": "RiskiVR", "at": 1776564000 },
+        { "name": "Norelock", "at": 1776567600 },
+        { "name": "Tabbid", "at": 1776571200 },
+        { "name": "hudsun", "at": 1776574800 }
+      ]
+    },
+    {
+      "id": "cookie-2094-mar-2026",
+      "title": "COOKIE.2094 — Riddim Rave",
+      "poster": "assets/posters/march_2026.png",
+      "posterAlt": "CookieSquad COOKIE.2094 Riddim Rave poster (Mar 21/22)",
+      "note": "Grab your microwaves. Kohada Stadium.",
+      "doorsAt": 1774143000,
+      "lineup": [
+        { "name": "ItsHesii", "at": 1774144800 },
+        { "name": "conductedmoon", "at": 1774148400 },
+        { "name": "Brick", "at": 1774152000 },
+        { "name": "Tabbid", "at": 1774155600 }
+      ]
+    },
+    {
       "id": "cookie-2094-feb-2026",
       "title": "COOKIE.2094 — Variety Rave",
       "poster": "assets/posters/february_2026.png",

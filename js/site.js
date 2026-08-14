@@ -28,7 +28,11 @@ function buildDiscordPost({ event, mode, site }) {
   lines.push(String(event?.title ?? "CookieSquad"));
 
   if (Number.isFinite(event?.doorsAt)) {
-    lines.push(`Doors: ${discordTimestamp(event.doorsAt, "F")}`);
+    lines.push(
+      event?.timeTba
+        ? `${discordTimestamp(event.doorsAt, "D")} — time TBA`
+        : `Doors: ${discordTimestamp(event.doorsAt, "F")}`,
+    );
   }
 
   for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
@@ -101,6 +105,19 @@ function escapeHtml(text) {
     .replaceAll("'", "&#39;");
 }
 
+function hasPoster(event) {
+  return typeof event?.poster === "string" && event.poster.length > 0;
+}
+
+function posterPlaceholder() {
+  return `
+    <div class="card poster-placeholder">
+      <img class="poster-placeholder-logo" src="assets/logos/logo_big.png" alt="" />
+      <span class="muted">Poster TBA</span>
+    </div>
+  `;
+}
+
 function renderFeatured(container, featured, site) {
   if (!container) return;
   if (!featured.event) {
@@ -115,25 +132,39 @@ function renderFeatured(container, featured, site) {
 
   container.className = "card featured";
   container.innerHTML = `
-    <button class="poster-card card" data-lightbox="poster" type="button" aria-label="View poster">
-      <img class="poster" src="${escapeHtml(event.poster)}" alt="${escapeHtml(event.posterAlt ?? event.title)}" loading="lazy" />
-    </button>
+    ${
+      hasPoster(event)
+        ? `<button class="poster-card card" data-lightbox="poster" type="button" aria-label="View poster">
+            <img class="poster" src="${escapeHtml(event.poster)}" alt="${escapeHtml(event.posterAlt ?? event.title)}" loading="lazy" />
+          </button>`
+        : posterPlaceholder()
+    }
     <div class="featured-meta">
       <div class="${badgeClass}">${badgeText}</div>
       <h3 class="featured-title">${escapeHtml(event.title)}</h3>
+      ${event.note ? `<p class="event-note muted">${escapeHtml(event.note)}</p>` : ""}
       <div class="kv">
         <div class="kv-row">
           <div class="kv-label">Doors</div>
           <div class="kv-value">
-            <span class="chip" title="${discordTimestamp(event.doorsAt, "F")}">${formatLocal(event.doorsAt, {
-              weekday: "short",
-              month: "short",
-              day: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-            })}</span>
-            <span class="muted">${formatRelative(event.doorsAt)}</span>
-            <button class="icon-btn" data-copy="${discordTimestamp(event.doorsAt, "F")}" type="button">Copy</button>
+            ${
+              event.timeTba
+                ? `<span class="chip">${formatLocal(event.doorsAt, {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                  })}</span>
+                  <span class="muted">Time TBA · ${formatRelative(event.doorsAt)}</span>`
+                : `<span class="chip" title="${discordTimestamp(event.doorsAt, "F")}">${formatLocal(event.doorsAt, {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}</span>
+                  <span class="muted">${formatRelative(event.doorsAt)}</span>
+                  <button class="icon-btn" data-copy="${discordTimestamp(event.doorsAt, "F")}" type="button">Copy</button>`
+            }
           </div>
         </div>
       </div>
@@ -240,7 +271,11 @@ async function renderGalleries(grid, events) {
         : "TBA";
       return `
         <article class="card">
-          <img class="poster" src="${escapeHtml(event.poster)}" alt="${escapeHtml(event.posterAlt ?? event.title)}" loading="lazy" />
+          ${
+            hasPoster(event)
+              ? `<img class="poster" src="${escapeHtml(event.poster)}" alt="${escapeHtml(event.posterAlt ?? event.title)}" loading="lazy" />`
+              : posterPlaceholder()
+          }
           <div class="card-body">
             <div class="poster-title">${escapeHtml(event.title)}</div>
             <div class="muted">${doors}</div>

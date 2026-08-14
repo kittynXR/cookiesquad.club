@@ -25,7 +25,11 @@ function buildDiscordPost(event) {
   lines.push(String(event?.title ?? "CookieSquad"));
 
   if (Number.isFinite(event?.doorsAt)) {
-    lines.push(`Doors: ${discordTimestamp(event.doorsAt, "F")}`);
+    lines.push(
+      event?.timeTba
+        ? `${discordTimestamp(event.doorsAt, "D")} — time TBA`
+        : `Doors: ${discordTimestamp(event.doorsAt, "F")}`,
+    );
   }
 
   for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
@@ -73,6 +77,10 @@ function escapeHtml(text) {
     .replaceAll("'", "&#39;");
 }
 
+function hasPoster(event) {
+  return typeof event?.poster === "string" && event.poster.length > 0;
+}
+
 function render(root, event, photos) {
   const dateLabel = Number.isFinite(event?.doorsAt)
     ? formatLocal(event.doorsAt, { year: "numeric", month: "long", day: "numeric" })
@@ -84,10 +92,18 @@ function render(root, event, photos) {
       <p class="muted">${dateLabel}</p>
     </div>
     <div class="card featured">
-      <button class="poster-card card" data-lightbox="poster" type="button" aria-label="View poster">
-        <img class="poster" src="../${escapeHtml(event.poster)}" alt="${escapeHtml(event.posterAlt ?? event.title)}" loading="lazy" />
-      </button>
+      ${
+        hasPoster(event)
+          ? `<button class="poster-card card" data-lightbox="poster" type="button" aria-label="View poster">
+              <img class="poster" src="../${escapeHtml(event.poster)}" alt="${escapeHtml(event.posterAlt ?? event.title)}" loading="lazy" />
+            </button>`
+          : `<div class="card poster-placeholder">
+              <img class="poster-placeholder-logo" src="../assets/logos/logo_big.png" alt="" />
+              <span class="muted">Poster TBA</span>
+            </div>`
+      }
       <div class="featured-meta">
+        ${event.note ? `<p class="event-note muted">${escapeHtml(event.note)}</p>` : ""}
         <div class="kv">
           ${
             Number.isFinite(event?.doorsAt)
@@ -95,14 +111,23 @@ function render(root, event, photos) {
                 <div class="kv-row">
                   <div class="kv-label">Doors</div>
                   <div class="kv-value">
-                    <span class="chip" title="${discordTimestamp(event.doorsAt, "F")}">${formatLocal(event.doorsAt, {
-                      weekday: "short",
-                      month: "short",
-                      day: "numeric",
-                      hour: "numeric",
-                      minute: "2-digit",
-                    })}</span>
-                    <button class="icon-btn" data-copy="${discordTimestamp(event.doorsAt, "F")}" type="button">Copy</button>
+                    ${
+                      event.timeTba
+                        ? `<span class="chip">${formatLocal(event.doorsAt, {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                          })}</span>
+                          <span class="muted">Time TBA</span>`
+                        : `<span class="chip" title="${discordTimestamp(event.doorsAt, "F")}">${formatLocal(event.doorsAt, {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit",
+                          })}</span>
+                          <button class="icon-btn" data-copy="${discordTimestamp(event.doorsAt, "F")}" type="button">Copy</button>`
+                    }
                   </div>
                 </div>
               `

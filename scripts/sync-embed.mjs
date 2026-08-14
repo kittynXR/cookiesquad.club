@@ -49,24 +49,15 @@ function buildEmbedMeta({ siteUrl, siteName, timeZone, event, mode }) {
   const prefix = mode === "next" ? "Next event will be" : "Previous event was on";
   const hasDoors = Number.isFinite(event?.doorsAt);
 
+  const timeTba = event?.timeTba === true;
+  const dateOnlyOpts = { month: "short", day: "numeric" };
+  const dateTimeOpts = { ...dateOnlyOpts, hour: "numeric", minute: "2-digit", timeZoneName: "short" };
+
   const whenLocal = hasDoors
-    ? formatInTimeZone(event.doorsAt, timeZone, {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        timeZoneName: "short",
-      })
+    ? formatInTimeZone(event.doorsAt, timeZone, timeTba ? dateOnlyOpts : dateTimeOpts)
     : "TBA";
-  const whenUtc = hasDoors
-    ? formatInTimeZone(event.doorsAt, "UTC", {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        timeZoneName: "short",
-      })
-    : null;
+  const whenUtc =
+    hasDoors && !timeTba ? formatInTimeZone(event.doorsAt, "UTC", dateTimeOpts) : null;
 
   const when = whenUtc ? `${whenLocal} / ${whenUtc}` : whenLocal;
 
@@ -74,20 +65,26 @@ function buildEmbedMeta({ siteUrl, siteName, timeZone, event, mode }) {
   const tzShort = hasDoors ? timeZoneAbbrev(event.doorsAt, timeZone) : "";
 
   const lines = [`${prefix} ${when}: ${titleText}`];
-  if (hasDoors) {
+  if (hasDoors && timeTba) {
+    lines.push("Doors — TBA");
+  } else if (hasDoors) {
     const doorsTime = formatInTimeZone(event.doorsAt, timeZone, { hour: "numeric", minute: "2-digit" });
     lines.push(`Doors — ${doorsTime}${tzShort ? ` ${tzShort}` : ""}`);
   }
 
-  for (const slot of Array.isArray(event?.lineup) ? event.lineup : []) {
+  const lineup = Array.isArray(event?.lineup) ? event.lineup : [];
+  for (const slot of lineup) {
     if (!slot?.name || !Number.isFinite(slot?.at)) continue;
     const time = formatInTimeZone(slot.at, timeZone, { hour: "numeric", minute: "2-digit" });
     lines.push(`${slot.name} — ${time}${tzShort ? ` ${tzShort}` : ""}`);
   }
 
+  // With no lineup the embed is nearly empty, so the note carries the detail instead.
+  if (!lineup.length && event?.note) lines.push(event.note);
+
   const description = lines.join("\n");
 
-  const imageUrl = asAbsoluteUrl(siteUrl, event?.poster);
+  const imageUrl = asAbsoluteUrl(siteUrl, event?.poster || "assets/logos/logo_big.png");
 
   return [
     `<meta property="og:type" content="website" />`,

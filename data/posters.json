@@ -1,5 +1,9 @@
 {
   "posters": [
+    { "label": "June 2026", "src": "assets/posters/june_2026.png", "date": "2026-06" },
+    { "label": "May 2026", "src": "assets/posters/may_2026.png", "date": "2026-05" },
+    { "label": "April 2026", "src": "assets/posters/april_2026.png", "date": "2026-04" },
+    { "label": "March 2026", "src": "assets/posters/march_2026.png", "date": "2026-03" },
     { "label": "February 2026", "src": "assets/posters/february_2026.png", "date": "2026-02" },
     { "label": "January 2026", "src": "assets/posters/january_2026.png", "date": "2026-01" },
     { "label": "December 2025", "src": "assets/posters/december_2025.png", "date": "2025-12" },
